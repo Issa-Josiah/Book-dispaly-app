@@ -72,7 +72,7 @@ class Book(models.Model):
         return f"{self.title} by {self.author.name}"
     
     def get_absolute_url(self):
-        return reverse('book_details', kwargs={'pk': self.pk})
+        return reverse('author_details', kwargs={'pk': self.pk})
     
     def is_available(self):
         #check if book is available for borrowing
@@ -86,8 +86,8 @@ class BorrowRecord(models.Model):
     due_date = models.DateTimeField()
     is_returned = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)
-    created_at = models.DateField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-borrow_date']

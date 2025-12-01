@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} Book display System{%endblock}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- icons -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+     <!-- custom styles -->
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+      <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+       
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand, .nav-link {
+            color: white !important;
+            font-weight: 500;
+        }
+        
+      
+        .nav-link:hover {
+            color: #ffd700 !important;
+        }
+        
+       
+        .main-content {
+            flex: 1;
+            padding: 2rem 0;
+            background-color: #f8f9fa;
+        }
+      
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+      </style>
+
+      {% block extra_css %}{% endblock %}
+
+  </head>
+  <body>
+
+    <!-- navbar here -->
+     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'book:dashboard' %}">
+                <i class="bi bi-book"></i>BookDisplay
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{%url 'book:dashboard' %}">
+                            <i class="bi bi-house-door"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{%url 'book:book_create' %}">
+                            <i class="bi bi-book"></i>Books
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'book:author_list'%}">
+                            <i class="bi bi-arrow-right-circle"></i>Authors
+                        </a>
+                    </li>
+                   
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'book:borrow_list' %}">
+                            <i class="bi bi-arrow-right-circle"></i>Borrow
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'book:return_book' %}">
+                            <i class="bi bi-arrow-left-circle"></i> Return
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <!-- User authentication -->
+                     <div class="d-flex">
+                        {% if user.is_authenticated %}
+                            <span class="text-light me-3">logged in as {{user.username}}</span>
+                            <a class="btn btn-outline-light" href="{% url 'logout' %}">Logout</a>
+                        {% else %}
+                            <a class="btn btn-light" href="{%url 'register' %}"> Register</a>
+                            <a class="btn btn-outline-light" href="{% url 'login' %}">Login</a>
+                        {%endif%}   
+
+                     </div>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- create -->
+     </nav>
+
+    <!-- messages -->
+    {%if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+            </div>
+            {%endfor%}
+        </div>
+    {%endif%}
+
+    <!-- main content you pass from the other templates appear here-->
+     <main class="container my-4">
+        {% block content %} {% endblock %}
+     </main>
+
+     <!-- footer -->
+
+        <footer class="text-center bg-dark text-white py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0"> &copy; {% now "Y" %} Book display. All rights reserved</p>
+        </div>
+      </footer>
+
+
+    <!-- js 5 bundle-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- custom js -->
+     <script src="{% static 'js/main.js' %}"></script>
+
+  </body>
+</html>

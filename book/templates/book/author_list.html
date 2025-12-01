@@ -1,0 +1,52 @@
+{% extends 'book/base.html' %}
+
+{% block title %}Authors - Book Display{% endblock %}
+
+{% block content %}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h1>Authors</h1>
+        <p class="text-muted">List of all authors in the library</p>
+        <a href="{% url 'book:author_create' %}" class="btn btn-success mb-3">
+            <i class="bi bi-plus-circle"></i> Add New Author
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Birth Date</th>
+                        <th>Biography</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for author in authors %}
+                    <tr>
+                        <td>{{ author.name }}</td>
+                        <td>{{ author.birth_date|date:"M d, Y" }}</td>
+                        <td>{{ author.bio|truncatewords:15 }}</td>
+                        <td>
+                            <a href="{% url 'book:author_update' author.pk %}" class="btn btn-sm btn-primary">
+                                <i class="bi bi-pencil"></i> Edit
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">No authors found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
