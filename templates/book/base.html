@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title } Book display System{%endblock}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- icons -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+     <!-- custom styles -->
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+      {% block extra_css %}{% endblock %}
+
+  </head>
+  <body>
+
+    <!-- navbar here -->
+     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'book:dashboard' %}">
+                <i class="bi bi-book"></i>BookDisplay
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-targer="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{%url 'book:dashboard' %}">
+                            <i class="bi bi-speedometer2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a>
+                            <i class="bi bi-book"></i>Books
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a>
+                            <i class="bi bi-person"></i>Authors
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a>
+                            <i class="bi bi-categories"></i>Categories
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a>
+                            <i class="bi bi-arrow-left-right"></i>Borrows
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <!-- here maybe we can check if user is authenticated or not -->
+                </ul>
+            </div>
+        </div>
+        <!-- create -->
+     </nav>
+
+    <!-- messages -->
+    {%if messages %}
+        <div class="container mt-3">
+            {for messages in messages %}
+            <div class="alert alert-{{ messages.tags }} alert-dismissible fade show" role="alert">
+                {{messages}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+            </div>
+            {%endfor}
+        </div>
+    {%endif%}
+
+    <!-- main content you pass from the other templates appear here-->
+     <main class="container my-4">
+        {% block content %}{%endblock}
+     </main>
+
+     <!-- footer -->
+      <footer>
+        <div class="container">
+            <p class="mb-0"> &copy; {% now "Y" } Book display. All right preserved</p>
+        </div>
+      </footer>
+
+
+    <!-- js 5 bundle-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- custom js -->
+     <script src="{%static 'js/main.js %'}"></script>
+
+  </body>
+</html>
