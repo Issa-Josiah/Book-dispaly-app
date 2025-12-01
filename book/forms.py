@@ -54,7 +54,7 @@ class CategoryForm(forms.ModelForm):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['title', 'isbn', 'author', 'category', 'description', 'published_date', 'publisher', 'pages', 'status', 'cover_image']
+        fields = ['title', 'isbn', 'author', 'category', 'description', 'published_date',  'pages', 'status', 'cover_image']#'publisher',
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -79,10 +79,10 @@ class BookForm(forms.ModelForm):
                 'class': 'form-control',
                 'type': 'date'
             }),
-            'publisher': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter oublisher name'
-            }),
+            # 'publisher': forms.TextInput(attrs={
+            #     'class': 'form-control',
+            #     'placeholder': 'Enter oublisher name'
+            # }),
             'pages': forms.NumberInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Number of pages'
