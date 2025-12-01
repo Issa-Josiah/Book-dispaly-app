@@ -29,3 +29,4 @@ class BorrowRecordAdmin(admin.ModelAdmin):
     list_filter = ('is_returned',)
     search_fields = ('book__title', 'borrower__username')
     ordering = ('-borrow_date',)
+
