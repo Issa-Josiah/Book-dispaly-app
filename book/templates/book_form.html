@@ -1,0 +1,152 @@
+{% extends 'book/base.html' %}
+
+{% block title %}{{ title }} Libu{% endblock %}
+
+{% block content }
+
+<div class="row mb-4">
+    <div clas="col-12">
+        <h1>Books & Categories</h1>
+        <p class="text-muted">Browse books organised by category</p>
+    </div>
+</div>
+
+    <!-- Breadcrumb navigation -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'book:dashboard' %}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'book:book_list' %}">Books</a></li>
+                <li class="breadcrumb-item active">{% if form.instance.pk %}Edit{% else %}Add New{% endif %} Book</li>
+            </ol>
+        </nav>
+        <h1>{% if form.instance.pk %}Edit{% else %}Add New{% endif %} Book</h1>
+    </div>
+</div>
+
+<!-- Form Card -->
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <!-- The form starts here -->
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Display non-field errors (errors that apply to whole form) -->
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+
+                    <!-- Book Title -->
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="text-danger small">{{ form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- ISBN and Status in one row -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.isbn.id_for_label }}" class="form-label">{{ form.isbn.label }}</label>
+                            {{ form.isbn }}
+                            {% if form.isbn.errors %}
+                                <div class="text-danger small">{{ form.isbn.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.status.id_for_label }}" class="form-label">{{ form.status.label }}</label>
+                            {{ form.status }}
+                            {% if form.status.errors %}
+                                <div class="text-danger small">{{ form.status.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Author and Category in one row -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.author.id_for_label }}" class="form-label">{{ form.author.label }}</label>
+                            {{ form.author }}
+                            {% if form.author.errors %}
+                                <div class="text-danger small">{{ form.author.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.category.id_for_label }}" class="form-label">{{ form.category.label }}</label>
+                            {{ form.category }}
+                            {% if form.category.errors %}
+                                <div class="text-danger small">{{ form.category.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div class="text-danger small">{{ form.description.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Published Date, Publisher, and Pages in one row -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.published_date.id_for_label }}" class="form-label">{{ form.published_date.label }}</label>
+                            {{ form.published_date }}
+                            {% if form.published_date.errors %}
+                                <div class="text-danger small">{{ form.published_date.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.publisher.id_for_label }}" class="form-label">{{ form.publisher.label }}</label>
+                            {{ form.publisher }}
+                            {% if form.publisher.errors %}
+                                <div class="text-danger small">{{ form.publisher.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.pages.id_for_label }}" class="form-label">{{ form.pages.label }}</label>
+                            {{ form.pages }}
+                            {% if form.pages.errors %}
+                                <div class="text-danger small">{{ form.pages.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Cover Image -->
+                    <div class="mb-3">
+                        <label for="{{ form.cover_image.id_for_label }}" class="form-label">{{ form.cover_image.label }}</label>
+                        {{ form.cover_image }}
+                        {% if form.cover_image.errors %}
+                            <div class="text-danger small">{{ form.cover_image.errors }}</div>
+                        {% endif %}
+                        <!-- Show current image if editing -->
+                        {% if form.instance.cover_image %}
+                        <div class="mt-2">
+                            <img src="{{ form.instance.cover_image.url }}" alt="Current cover" class="img-thumbnail" style="max-width: 200px;">
+                            <p class="small text-muted">Current cover image</p>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Form Buttons -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'book:book_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> {% if form.instance.pk %}Update{% else %}Save{% endif %} Book
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
